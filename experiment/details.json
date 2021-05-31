@@ -1,0 +1,58 @@
+{
+
+   "details": [
+       {
+			"Experiment": "Multiplexer using Universal Gates",        
+			"Lab": "Digital Logic Design ( Logic Gates & Mux-Demux )",               
+			"Discipline": "Electronics and Telecommunication Engineering",				 
+			"Technology": "css, html, js"         
+       }
+   ],
+
+   "developer": [
+       {       
+      "Developer": "Prof. Santosh Noronha",       
+      "Institute": "Indian Institute of Technology Bombay ",         
+      "InstituteAcronym": "IITB"    
+       }
+   ],
+
+   "contributer": [
+	{       
+			"Contributer": "Tanuja Khatavkar",
+            "Institute": "Pune Vidyarthi Griha's College of Engineering and Technology",         
+            "InstituteAcronym": "PVG's COET, Pune"    
+       },
+       {       
+			"Contributer": "Harshada Gundecha",
+            "Institute": "Pune Vidyarthi Griha's College of Engineering and Technology",         
+            "InstituteAcronym": "PVG's COET, Pune"    
+       },
+
+       {       
+			"Contributer": "Shubham Kothari",  
+            "Institute": "Pune Vidyarthi Griha's College of Engineering and Technology",         
+            "InstituteAcronym": "PVG's COET, Pune"    
+       },
+
+       {       
+			"Contributer": "Hitesh Agarwal",   
+            "Institute": "Pune Vidyarthi Griha's College of Engineering and Technology",         
+            "InstituteAcronym": "PVG's COET, Pune"    
+       },
+
+       {       
+			"Contributer": "Shardul Sayankal", 
+            "Institute": "Pune Vidyarthi Griha's College of Engineering and Technology",         
+            "InstituteAcronym": "PVG's COET, Pune"    
+       },
+
+       {
+            "Contributer": "Satyam Katakwar", 
+            "Institute": "Pune Vidyarthi Griha's College of Engineering and Technology",         
+            "InstituteAcronym": "PVG's COET, Pune"    
+       }
+   ]
+
+}
+

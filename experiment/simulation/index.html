@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8"/>
+        <style>
+            #CONTROL{
+                float: left;
+                width: 25%;
+                height: 800;
+            }
+            #mycanvas{
+                float: left;
+            }
+            #tt{
+                float:right;
+            }
+            #truthtable{
+                border: 1px solid; 
+                
+            }
+
+            .truth_table td,th{
+                border: 1px solid black;
+                padding: 20px;
+                border-collapse: collapse;
+                
+            }
+            .truth_table {
+                border-collapse: collapse;
+            }
+
+            </style>
+            <style>
+                table,th{
+                        border: 1px solid; 
+                        
+                    }
+                </style>
+    </head>
+ <!--   <body>
+        <div style=" display: block" id="d1"> 
+            <br/>
+            <p>
+                <img src="images/mux_image.png"><br>
+                <b style="font-size:25px;color:blue;"><u>Select the universal gate (NAND or NOR) which you want to use to design 2:1 MUX:</u></b>
+                <br><br>
+                <select id="select" style="height:25px;width:20%;" onchange="getGate();">
+                    <option id="Select option" value="0">--Select Option---</option>
+                    <option id="op1" value="1">
+                        NAND GATE      
+                   </option>
+                   <option id="op2" value="2">
+                        NOR GATE      
+                </select>
+            </p>-->
+            <body  onload="init();">
+                <div style=" display: block" id="d1">
+                    <center>
+                        <table>
+                                    <tr>
+                                            <td>
+                                                <p>
+                                                    <label id="Que" style="font-size: 26px;color: rgb(83, 10, 255); text-align:left"></label>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    <tr>
+                                    <td>
+                                        <center>
+                                                <canvas id="testCanvas" width="500" height="250" style="border: solid;"></canvas>
+                                        </center>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <center>
+                                            
+                                            <input type="button" onclick="Select_NOR();" value="NOR" style="background-image:url('images/nor.png');background-repeat:no-repeat;height:50px;width:75px;background-position:left;background-size:70px 50px;text-align:left;color:blue" /> 
+                                           
+                                            <input type="button" onclick="Select_NAND();" value="NAND" style="background-image:url('images/nand.png');background-repeat:no-repeat;height:50px;width:75px;background-position:left;background-size:70px 50px;text-align:left;color:blue" />
+                                        </center>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <center>
+                                                <input id="buttonNext" type="button" onclick="Question_display();" value="Check Answer" style="display: none;background-repeat:no-repeat;height:50px;width:500px;background-position:left;background-size:70px 50px;text-align:center;color:black;font-weight: bold;" />
+                                        </center>  
+                                    </td>
+                                </tr>
+                            </table>
+                </center>        
+                <script>
+                    var flag=0;
+                    var click=0;//to check how many times the next stage button is clicked
+                    var questionCount = 0;
+                    var selectedAnswer = -1;
+                    var nextQ = false;
+                    var score = 5;
+                
+                    var CANVAS1 = document.getElementById("testCanvas");
+                            var CONTEXT1 = CANVAS1.getContext("2d");
+                            var Que = document.getElementById("Que");
+                            var qP = ["MULTIPLEXER USING UNIVERSAL LOGIC GATES"];
+                            function sendSms(sms) {
+                            document.getElementById("Que").innerHTML = sms;
+                            }
+                
+                
+                            var startX = 200;
+                            var startY = 125;
+                
+                            function init()
+                            {
+                                CONTEXT1.font = "25px Arial";
+                                CONTEXT1.fillText("Choose the universal gate for the ", 55 , 120);
+                                CONTEXT1.fillText("implementation of multiplexer.", 55 , 145);
+                                sendSms(qP[questionCount]);
+                               // document.getElementById("buttonNext").value = "Start Quiz";
+                            }
+                            function Select_NOR(){
+                                DrawNORGate();
+                                
+                                document.getElementById("buttonNext").style.display = "";
+                                document.getElementById("buttonNext").value = "NEXT STAGE";
+                                document.getElementById("buttonNext").style.backgroundColor = "green";
+                                
+                            }
+                            function Select_NAND(){
+                                DrawNANDGate();
+                                
+                                document.getElementById("buttonNext").style.display = "";
+                                document.getElementById("buttonNext").value = "NEXT STAGE";
+                                document.getElementById("buttonNext").style.backgroundColor = "green";
+                            }
+                            function Question_display()
+                            {   /*if (click == 0){
+                                alert("Proceed to the next stage of the simulator");
+                            }*/
+                                 if(selectedAnswer == 1){  //NAND gate selected
+                                flag = 2;
+                                divs = document.getElementsByClassName("classNAND");
+                                divs[0].id = "d2";
+                                document.getElementById("norButton").style.display="none";
+                                next();       //Changing the div
+                                }
+                                else if(selectedAnswer == 2){ //NOR gate selected
+                                flag = 2;   
+                                divs = document.getElementsByClassName("classNOR");
+                                divs[0].id = "d2";
+                                document.getElementById("nandButton").style.display="none";
+                                next();       //Changing the div
+                                console.log("NOR");
+                                }
+                            }
+                        </script>
+                        <script src="JS/front_page.js"></script>
+                        </div>
+        
+        <div style=" display: none " class="classNAND">
+            
+            <div id="truth_table1">
+                <p ><b style="font-size:25px;color:blue;"><u>Enter the outputs for NAND Gate:</u></b></p>
+                <table class="truth_table" id="table1" cellspacing="10"  width="350px">
+                    <th colspan=2>
+                        INPUTS
+                    </th>
+                    <th>
+                        OUTPUT
+                    </th>
+                    <tr>
+                        <td>A</td>
+                        <td>B</td>
+                        <td>Y</td>
+                        
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td><input type="text" id="ANS1" ></td>
+                        
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>1</td>
+                        <td><input type="text" id="ANS2" ></td>
+                        
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>0</td>
+                        <td><input type="text" id="ANS3" ></td>
+                     <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td><input type="text" id="ANS4" ></td>
+                            
+                    </tr>
+                        
+                    </tr>
+                </table>
+                <input type="button" value="SUBMIT" id="submit-answer1" style="height:35px;width:70px;font-size:16px"onclick="Check1();">
+                <input type="button" value="Try Again" id="try1" style="height:35px;width:100px;font-size:16px" onclick="TRY1();">
+                <br>
+                <p ><b style="font-size:20px;"><u id="result1"></u></b></p>
+            </div>
+            <script>
+                var truth_table_try1=0;
+                var truth_table_marks1=5;
+                var flag=0;
+                function Check1()
+                {
+                    document.getElementById("ANS1").disabled=true;
+                    document.getElementById("ANS2").disabled=true;
+                    document.getElementById("ANS3").disabled=true;
+                    document.getElementById("ANS4").disabled=true;
+           
+    
+                    var answer1=document.getElementById("ANS1").value;
+                    var answer2=document.getElementById("ANS2").value;
+                    var answer3=document.getElementById("ANS3").value;
+                    var answer4=document.getElementById("ANS4").value;
+                    console.log(answer1=="D0" && answer2=="D0" && answer3=="D1" && answer4=="D1");
+                    if(answer1=="" || answer2=="" || answer3==""|| answer4=="")
+                    {
+                        document.getElementById("result1").style.color = "red";
+                        document.getElementById("result1").innerHTML = "Please Enter All The Answers";
+                        document.getElementById("try1").value="Try Again"+"("+truth_table_try1 + ")";
+                        document.getElementById("ANS1").disabled=false;
+                        document.getElementById("ANS2").disabled=false;
+                        document.getElementById("ANS3").disabled=false;
+                        document.getElementById("ANS4").disabled=false;
+                    }
+            
+                    else if(answer1=="1" && answer2=="1" && answer3=="1" && answer4=="0")
+                    {   console.log("YAY1");
+                    document.getElementById("result1").style.color = "green";
+                    document.getElementById("result1").innerHTML = "Correct answer.Your score is" + " " + truth_table_marks1;
+                    alert("Proceed to the next step");
+                       
+                        document.getElementById("try1").disabled="true";
+                        document.getElementById("submit-answer1").disabled="true";
+                        flag = 3;
+                        document.getElementById("NEXT").style.display="";   //Displaying the button to go to next div
+                    }
+                    else 
+                    {
+                        document.getElementById("result1").style.color = "red";
+                       document.getElementById("result1").innerHTML = "Wrong Answer.Try Again.";
+                    }
+                }
+                function TRY1()
+                {   truth_table_marks1--; //Decrementing marks for wrong answer
+                    truth_table_try1++;
+                    document.getElementById("try1").value="Try Again"+"("+truth_table_try1 + ")";
+                    document.getElementById("ANS1").disabled=false;
+                    document.getElementById("ANS2").disabled=false;
+                    document.getElementById("ANS3").disabled=false;
+                    document.getElementById("ANS4").disabled=false;
+    
+                    if(truth_table_try1==5)
+                    {   document.getElementById("result1").innerHTML="You've exceeded the maximum number of tries.The answers have been entered in the respective blanks.";
+                        document.getElementById("try1").disabled="false";
+                        document.getElementById("ANS1").value="1";
+                        document.getElementById("ANS2").value="1";
+                        document.getElementById("ANS3").value="1";
+                        document.getElementById("ANS4").value="0";
+    
+                        document.getElementById("ANS1").disabled=true;
+                        document.getElementById("ANS2").disabled=true;
+                        document.getElementById("ANS3").disabled=true;
+                        document.getElementById("ANS4").disabled=true;
+                    }
+               }
+    
+            
+    
+            </script>
+        </div>
+    
+        <div style=" display: none " class="classNOR">
+            
+            <div id="truth_table2">
+                    <p ><b style="font-size:25px;color:blue;"><u>Enter the outputs for NOR Gate:</u></b></p>
+                    <table class="truth_table" id="table2" cellspacing="10" width="350px">
+                            <th colspan=2>
+                                INPUTS
+                            </th>
+                            <th>
+                                OUTPUT
+                            </th>
+                            <tr>
+                                <td>A</td>
+                                <td>B</td>
+                                <td>Y</td>
+                                
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td><input type="text" id="ANS5" ></td>
+                                
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>1</td>
+                                <td><input type="text" id="ANS6" ></td>
+                                
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>0</td>
+                                <td><input type="text" id="ANS7" ></td>
+                             <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td><input type="text" id="ANS8" ></td>
+                                    
+                            </tr>
+                                
+                            </tr>
+                    </table>
+                    <input type="button" value="SUBMIT" id="submit-answer" style="height:35px;width:70px;font-size:16px" onclick="Check2();">
+                    <input type="button" value="Try Again" id="try" style="height:35px;width:100px;font-size:16px" onclick="TRY2();">
+                    <br>
+                    <p ><b style="font-size:20px"><u id="result2"></u></b></p>
+            </div>
+            <script>
+                var truth_table_try2=0;
+                var truth_table_marks2=5;
+                function Check2()
+                {
+                    document.getElementById("ANS5").disabled=true;
+                    document.getElementById("ANS6").disabled=true;
+                    document.getElementById("ANS7").disabled=true;
+                    document.getElementById("ANS8").disabled=true;
+                   
+            
+                    var answer5=document.getElementById("ANS5").value;
+                    var answer6=document.getElementById("ANS6").value;
+                    var answer7=document.getElementById("ANS7").value;
+                    var answer8=document.getElementById("ANS8").value;
+                    if(answer5=="" || answer6=="" || answer7==""|| answer8=="")
+                    {
+                        document.getElementById("result2").style.color = "red";
+                        document.getElementById("result2").innerHTML = "Please Enter All The Answers";
+                        document.getElementById("ANS5").disabled=false;
+                        document.getElementById("ANS6").disabled=false;
+                        document.getElementById("ANS7").disabled=false;
+                        document.getElementById("ANS8").disabled=false;
+                    }
+                    
+                    else if(answer5=="1" && answer6=="0" && answer7=="0" && answer8=="0")
+                    {   console.log("YAY2");
+                    document.getElementById("result2").style.color = "green";
+                    document.getElementById("result2").innerHTML = "Correct answer.Your score is" + " " + truth_table_marks2;
+                        alert("Proceed to the next step");
+                        document.getElementById("try").disabled="true";
+                        document.getElementById("submit-answer").disabled="true";
+                        flag = 3;
+                        document.getElementById("NEXT").style.display="";
+                    }
+                    else 
+                    {
+                        document.getElementById("result2").style.color = "red";
+                        document.getElementById("result2").innerHTML = "Wrong Answer.Try Again.";
+                    }
+                   
+                }
+                function TRY2()
+                {   truth_table_marks2--;  //Decrementing marks for wrong answer
+                    truth_table_try2++;
+                    document.getElementById("try").value="Try Again"+"("+truth_table_try2 + ")";
+                    document.getElementById("ANS5").disabled=false;
+                    document.getElementById("ANS6").disabled=false;
+                    document.getElementById("ANS7").disabled=false;
+                    document.getElementById("ANS8").disabled=false;
+            
+                    if(truth_table_try2==5)
+                    {   document.getElementById("result").innerHTML="You've exceeded the maximum number of tries.The answers have been entered in the respective blanks.";
+                        document.getElementById("try").disabled="false";
+                        document.getElementById("ANS5").value="1";
+                        document.getElementById("ANS6").value="0";
+                        document.getElementById("ANS7").value="0";
+                        document.getElementById("ANS8").value="0";
+            
+                        document.getElementById("ANS5").disabled=true;
+                        document.getElementById("ANS6").disabled=true;
+                        document.getElementById("ANS7").disabled=true;
+                        document.getElementById("ANS8").disabled=true;
+                    }
+                       
+                }
+            </script>
+        </div>
+        <div style=" display: none " id="d3">
+                <script src="JS/gates.js"></script>
+                <script src="JS/outputgate.js"></script>
+                <table style="width: 1000px;">
+                        <td>
+                            <div id="CONTROL">
+                                <table id=td1 style="border-style:solid; width: 350px;">
+                                    <th colspan=2>
+                                        Available Gates
+                                    </th>
+                                    <tr>
+                                            <td id="norButton">
+                                                    <input type="button" id="NOR" onclick="addnorgate();" value="NOR" style="background-image:url('images/nor.png');background-repeat:no-repeat;height:50px; width: 100%;background-position:left;background-size:60px 50px;color:blue;text-align: right;" />
+                                                </td>
+                                            <td id="nandButton">
+                                                <input type="button" id="NAND" onclick="addnandgate();" value="NAND" style="background-image:url('images/nand.png');background-repeat:no-repeat;height:50px; width: 100%;background-position:left;background-size:60px 50px;color:blue;text-align: right;" />
+                                            </td>
+                                            <td><input type="button" id="YC" onclick="adddivgate();" value="Y-connector" style="background-image:url('images/y_connector_symbol final.png');background-repeat:no-repeat;height:50px; width: 100%;background-position:left;background-size:60px 50px;color:blue;text-align: right;" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="button" id="GL" onclick="addbulbgate();" value="Green LED" style="background-image:url('images/gled.png');background-repeat:no-repeat;height:50px; width: 100%;background-position:left;background-size:60px 50px;color:blue;text-align: right;" />
+                                            </td>
+                                            <td>
+                                                <input type="button" id="DS" onclick="addoutgate();" value="Digital Switch" style="height:50px;width:100%;text-align:right;color:blue;background-position:left;">
+                                            </td>
+                                        </tr>
+                                </table>
+                                <table id=td2 style="border-style:solid; width: 350px;">
+                                    <th colspan=2>
+                                        Connections
+                                    </th>
+                                    <tr>
+                                        <td>
+                                            <input type="button" onclick="connector1();" value="Connect op1 to ip1 " style="height:50px;width:100%;background-size:50px 50px;font-weight: bold" />
+                                        </td>
+                                        <td>
+                                            <input type="button" onclick="connector2();" value="Connect op1 to ip2 " style="height:50px;width:100%;background-size:50px 50px;font-weight: bold" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="button" onclick="connector3();" value="Connect op2 to ip2 " style="height:50px;width:100%;background-size:50px 50px;font-weight: bold" />
+                                        </td>
+                                        <td>
+                                            <input type="button" onclick="connector4();" value="Connect op2 to ip1 " style="height:50px;width:100%;background-size:50px 50px;font-weight: bold" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table id=td3 style="border-style:solid; width: 350px;">
+                                    <tr>
+                                        <td>
+                                            <input type="button" onclick="undoGate();" value="UNDO GATE" style="height:50px;width:100%;background-size:50px 50px;text-align:center; color: red; font-weight: bold;" />
+                                        </td>
+                                        <td>
+                                            <input type="button" onclick="undoConnection();" value="UNDO LINK" style="height:50px;width:100%;background-size:50px 50px; color: red; font-weight: bold;" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="button" onclick="redoGate();" value="REDO GATE" style="height:50px;width:100%;background-size:50px 50px;text-align:center; color: darkgreen; font-weight: bold;" />
+                                        </td>
+                                        <td>
+                                            <input type="button" onclick="redoConnection();" value="REDO LINK" style="height:50px;width:100%;background-size:50px 50px; color: darkgreen; font-weight: bold;" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table id=td4 style="border-style:solid; width: 350px;">
+                                    <tr>
+                                        <td colspan="2">
+                                            <input type="button" onclick="startsim1();" value="Start Simulator " style="height:50px;width:100%" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="button" onclick="stopsim1();" value="Stop Simulator " style="height:50px;width:100%" />
+                                        </td>
+                                        <td>
+                                            <input type="button" onclick="reset();" value="Reset " style="height:50px;width:100%" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                        <td>
+                            <label id="l1" style="font-size:26px;color:blue;text-align:center"></label>
+                            <br />
+                            <canvas id="mycanvas" style="border:5px solid black; " width="550" height="506" class="canvasNAND"></canvas> 
+                            <!-- CANVAS_NAND -->
+                        </td>
+                        <td>
+                            <div id="tt">
+                             <!--   <table class="truth_table" id="truthtable" cellspacing="20">
+                                    <th colspan=3>
+                                        INPUTS
+                                    </th>
+                                    <th>
+                                        OUTPUT
+                                    </th>
+                                        <tr>
+                                            <td>D<sub>0</sub>
+                                            </td>
+                                            <td>D<sub>1</sub>
+                                            </td>
+                                            <td>S<sub>0</sub>
+                                            </td>
+                                            <td>Y</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>D<sub>0</sub>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>0</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>D<sub>1</sub>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>0</td>
+                                            <td>D<sub>0</sub>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>D<sub>1</sub>
+                                            </td>
+                                        </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </table>-->
+                    <table class="truth_table" id="truthtable" cellspacing="20">
+                   
+                        <th colspan=2>
+                            CONTROL I/Ps
+                        </th>
+                        <th>
+                            OUTPUT
+                        </th>
+                        <tr>
+                            <td>Enable I/P
+    
+                            </td>
+                            <td>Select I/P
+    
+                            </td>
+                            <td>O/P
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                E'
+                            </td>
+                            <td>
+                                S<sub>0</sub>
+                            </td>
+                            <td>Y</td>
+                        </tr>
+                     <!---  <tr>
+                            <td>1</td>
+                            <td>X</td>
+                            <td>0</td>
+                        </tr>-->
+                
+                        <tr>
+                            <td>
+                                0
+                            </td>
+                            <td>0</td>
+                            <td>D<sub>0</sub></td>
+                        </tr>
+                    
+                        <tr>
+                            <td>
+                                0
+                            </td>
+                            <td>1</td>
+                            <td>D<sub>1</sub></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </table>
+                <script>
+                    var canvas1=document.getElementById("mycanvas");
+                    var context=canvas1.getContext("2d");
+                </script>
+                <script src="JS/genE2.js"></script>
+        </div>
+        <!-- <button onclick="previous();">previous</button> -->
+        <button id="NEXT" onclick="next();" style="display:none; width:100px; height:35px; position: relative;">NEXT</button>
+        <script>
+            var previousDiv = 0;
+            var currentDiv = 1;
+            var nextDiv = 2;
+            var gateType = "";
+
+            //Taking the option  back to none
+            function getGate()
+            {
+                gateType = document.getElementById("select").value;
+                console.log(gateType);
+                if(gateType == 0)
+                {
+                    flag=0;
+                    alert("Select a value");
+                }
+                else if(gateType == 1)
+                {
+                    flag = 2;
+                    divs = document.getElementsByClassName("classNAND");
+                    divs[0].id = "d2";
+                    document.getElementById("norButton").style.display="none";
+                    document.getElementById("NEXT").style.display="";
+                   
+                }
+                else if(gateType == 2)
+                {
+                    flag = 2;
+                    divs = document.getElementsByClassName("classNOR");
+                    divs[0].id = "d2";
+                    document.getElementById("nandButton").style.display="none";
+                    document.getElementById("NEXT").style.display="";
+
+                }
+            }
+
+            function next()
+            {
+                if(flag <= currentDiv)
+                {
+                    return;
+                }
+                if(nextDiv!=4)
+                {   
+                    if(nextDiv==2)
+                    {
+                        //Clearing the truth table values when reloading
+                        document.getElementById("NEXT").style.display="none";
+                        document.getElementById("ANS1").value = "";
+                        document.getElementById("ANS2").value = "";
+                        document.getElementById("ANS3").value = "";
+                        document.getElementById("ANS4").value = "";
+                        document.getElementById("ANS5").value = "";
+                        document.getElementById("ANS6").value = "";
+                        document.getElementById("ANS7").value = "";
+                        document.getElementById("ANS8").value = "";
+                        
+                    }
+                    //Changes for the NEXT button
+                    else if(nextDiv == 3){   
+                        document.getElementById("NEXT").style.display="none";
+                     }
+                    document.getElementById("d"+currentDiv).style.display = "none";
+                    document.getElementById("d"+nextDiv).style.display = "block";
+                    previousDiv++;
+                    currentDiv++;
+                    nextDiv++;
+                }
+                
+
+            }
+
+            function previous()
+            {
+                if(previousDiv!=0)
+                {
+                    document.getElementById("d"+currentDiv).style.display = "none";
+                    document.getElementById("d"+previousDiv).style.display = "block";
+                    previousDiv--;
+                    currentDiv--;
+                    nextDiv--;
+                }
+
+            }
+
+        </script>
+    </body>
+    <script src="JS/mouseevent.ob.js"></script>
+</html>
